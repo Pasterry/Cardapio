@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Pasterry — Seu Pedido</title>
+
+  <!-- Meta Pixel Code -->
+  <script>
+!function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', 'SEU_PIXEL_ID_AQUI'); // <<< TROCA AQUI
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=SEU_PIXEL_ID_AQUI&ev=PageView&noscript=1"
+  /></noscript>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-SEU_ID_AQUI"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-SEU_ID_AQUI'); // <<< TROCA AQUI
+  </script>
+
+  <style>
+    :root{ --bg:#071028; --card:#E8F5E9; --accent:#a2f38e; --muted:#9aa6b2; --danger:#ff5c5c; --glass: rgba(250,232,120,0.87); --ok:#22c55e; --okDark:#14532d; --okStrong:#0f3e22; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071028 0%, #081428 60%);color:#e6eef6;overflow:auto;scrollbar-width:none;-ms-overflow-style:none}
+    html::-webkit-scrollbar, body::-webkit-scrollbar{display:none}
+    body{overscroll-behavior:none}
+.wrap{max-width:980px;margin:0 auto;padding:20px;min-height:100dvh;display:flex;flex-direction:column}
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:16px;flex:0 0 auto}
+.brand{display:flex;align-items:center;gap:12px}
+.panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px; padding:16px; box-shadow:0 10px 30px rgba(2,6,23,0.6);flex:1 1 auto; display:flex; flex-direction:column; min-height:0; overflow:visible}
+.upsell{margin-bottom:12px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.06);flex:0 0 auto;position:sticky;top:0;z-index:10;backdrop-filter:saturate(120%) blur(6px)}
+.upsell-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.upsell-grid{display:grid;grid-template-columns: repeat(4, minmax(0,1fr));gap:10px;width:90%;margin:0 auto}
+.upsell-card{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:#0c1220;padding:8px}
+.upsell-card img{width:100%;object-fit:cover;display:block;background:#0b1427;border-radius:12px}
+.upsell-title{font-weight:800;font-size:14px;margin-top:6px}
+.upsell-price{color:var(--danger);font-weight:800}
+.upsell-add{margin-top:auto;padding:8px;border-radius:8px;border:0;background:var(--ok);color:#fff;font-weight:800;cursor:pointer}
+.cart{flex:1 1 auto; min-height:0; overflow:auto}
+.cart-item{display:flex;gap:12px;align-items:center;border-bottom:1px dashed rgba(255,255,255,0.03);padding:10px 0}
+.cart-item img{width:64px;height:48px;object-fit:cover;border-radius:8px;background:#0c1220}
+.meta{flex:1}
+.name{font-weight:700}
+.qty{color:#9aa6b2;font-size:13px}
+.footer{flex:0 0 auto; margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06)}
+.summary{padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.015), transparent);display:flex;flex-direction:column;gap:8px}
+.summary-row{display:flex;justify-content:space-between;align-items:center}
+.total{font-size:20px;font-weight:800;color:var(--accent)}
+.actions{display:flex;gap:10px;margin-top:12px}
+.btn{flex:1;padding:14px;border-radius:10px;border:0;background:var(--glass);color:#1a1600;cursor:pointer;font-weight:800;font-size:16px}
+.btn.secondary{background:var(--glass);opacity:.9}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.muted{color:#b29a9a;font-size:13px}
+.btn-primary{background:var(--ok);color:#fff}
+.success{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:120}
+.success-card{background:#071428;border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:320px}
+.check{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:rgba(34,197,94,.12);border:2px solid rgba(34,197,94,.35)}
+.check svg{width:48px;height:48px;stroke:var(--ok);stroke-width:3;fill:none}
+.success-title{font-size:22px;font-weight:900;color:#d1fae5}
+.choice{margin:20px 0 14px;padding:16px;border-radius:14px;border:1px solid rgba(34,197,94,.25);background:linear-gradient(180deg, rgba(34,197,94,.06), rgba(255,255,255,0.015))}
+.choice-title{font-weight:900;margin-bottom:12px;font-size:18px}
+.choice-row{display:flex;gap:12px;flex-wrap:wrap}
+.choice-option{flex:1;min-width:180px;display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;cursor:pointer;border:2px solid rgba(255,255,255,0.10);background:#0a1420}
+.choice-option.selected{border-color:rgba(34,197,94,.9);background:linear-gradient(180deg, rgba(34,197,94,.14), rgba(10,20,32,1))}
+.choice-option input{position:absolute;opacity:0}
+.thumb{width:56px;height:56px;border-radius:12px;overflow:hidden;background:#0c1220}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.label.main{font-weight:900;font-size:18px}
+.label.sub{font-size:12px;color:#9aa6b2}
+.choice-error{display:none;margin-top:10px;color:#ffb4b4;font-weight:700}
+ #adminDot{position:fixed; right:10px; bottom:10px; z-index:9999;width:18px; height:18px; line-height:18px; text-align:center;font-size:16px; font-weight:900; color:rgba(255,255,255,0.35);background:transparent; border:0; cursor:pointer;}
+ 
+ /* NOVO: Campos Nome e Mesa */
+.customer-info{margin:20px 0 14px;padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,0.1);background:#0a1420;display:grid;grid-template-columns:1fr 120px;gap:12px}
+.input-group{display:flex;flex-direction:column;gap:6px}
+.input-group label{font-size:14px;font-weight:700;color:#e6eef6}
+.input-group input{padding:14px;border-radius:10px;border:2px solid rgba(255,255,255,0.1);background:#071028;color:#fff;font-size:16px;font-weight:600}
+.input-group input:focus{outline:none;border-color:var(--ok)}
+.input-error{border-color:var(--danger)!important}
+ 
+ /* NOVO: Tela de bloqueio GPS */
+.blocked{position:fixed;inset:0;background:#071028;display:none;align-items:center;justify-content:center;z-index:999;text-align:center;padding:20px}
+.blocked-card{background:#0a1420;border:2px solid var(--danger);border-radius:16px;padding:32px;max-width:400px}
+.blocked-title{font-size:24px;font-weight:900;color:var(--danger);margin-bottom:12px}
+.blocked-text{color:#9aa6b2;margin-bottom:20px;line-height:1.5}
+.btn-loc{padding:16px 24px;border-radius:12px;border:0;background:var(--ok);color:#fff;font-weight:800;font-size:16px;cursor:pointer;width:100%;margin-bottom:10px}
+.btn-admin{padding:12px 24px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#9aa6b2;font-weight:700;font-size:14px;cursor:pointer;width:100%}
+.loading{position:fixed;inset:0;background:#071028;display:flex;align-items:center;justify-content:center;z-index:998}
+.spinner{width:50px;height:50px;border:4px solid rgba(162,243,142,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+ @keyframes spin{to{transform:rotate(360deg)}}
+.dist-info{margin-top:12px;font-size:11px;color:#6b7280}
+.admin-badge{position:fixed;top:10px;right:10px;background:#a2f38e;color:#071028;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:800;z-index:1000}
+</style>
+</head>
+<body>
+  <!-- Tela de Loading GPS -->
+  <div class="loading" id="loading">
+    <div style="text-align:center">
+      <div class="spinner"></div>
+      <div style="margin-top:16px;font-weight:700">Validando sua localização...</div>
+      <div style="margin-top:8px;font-size:12px;color:#9aa6b2">Permita o acesso ao GPS pra continuar</div>
+    </div>
+  </div>
+
+  <!-- Tela de Bloqueio -->
+  <div class="blocked" id="blocked">
+    <div class="blocked-card">
+      <div class="blocked-title">Você não está na Pasterry</div>
+      <div class="blocked-text">Esse cardápio é exclusivo pra clientes dentro da nossa loja em Francisco Morato.<br><br>Chega mais e peça direto da mesa!</div>
+      <button class="btn-loc" onclick="checkLocation()">Já estou na loja, tentar novamente</button>
+      <button class="btn-admin" onclick="adminLogin()">Sou Admin</button>
+      <div class="dist-info" id="distInfo"></div>
+      <div style="margin-top:16px;font-size:12px;color:#6b7280">Quer delivery? Acesse pasterry.com.br</div>
+    </div>
+  </div>
+
+  <div class="wrap" id="mainContent" style="display:none">
+    <div id="adminBadge" class="admin-badge" style="display:none">ACESSO ADMIN</div>
+    <header><div class="brand"><div><div style="font-weight:800;font-size:18px">Seu Pedido</div><div class="muted" id="itemsCount">0 itens</div></div></div></header>
+    <div class="panel">
+      <div class="upsell"><div class="upsell-head"><div style="font-weight:900">Que tal uma bebida?</div><div class="muted" style="font-size:12px">Adicione ao pedido</div></div><div class="upsell-grid" id="upsellGrid"></div></div>
+      <div class="cart" id="cart"></div>
+      
+      <!-- NOVO: Campos Nome e Mesa -->
+      <div class="customer-info">
+        <div class="input-group">
+          <label for="customerName">Seu nome *</label>
+          <input type="text" id="customerName" placeholder="Digite seu nome" maxlength="30">
+        </div>
+        <div class="input-group">
+          <label for="tableNumber">Mesa *</label>
+          <input type="number" id="tableNumber" placeholder="Nº" min="1" max="99">
+        </div>
+      </div>
+
+      <div class="choice"><div class="choice-title">Como você vai consumir?</div><div class="choice-row"><label class="choice-option" data-value="aqui"><input type="radio" name="consume" value="aqui"><div class="thumb"><img src="img/pasteis-bandeja.png"></div><div><div class="label main">Comer aqui</div><div class="label sub">Servir no local</div></div></label><label class="choice-option" data-value="viagem"><input type="radio" name="consume" value="viagem"><div class="thumb"><img src="img/embalagem-viagem.png"></div><div><div class="label main">Para viagem</div><div class="label sub">Levar embalado</div></div></label></div><div id="choiceError" class="choice-error">Selecione uma opção para continuar.</div></div>
+      <div class="footer"><div class="summary"><div class="summary-row"><div class="muted">Subtotal</div><div id="subtotal">R$ 0,00</div></div><div class="summary-row total"><div>Total</div><div id="total">R$ 0,00</div></div></div><div class="actions"><button class="btn secondary" id="backBtn">Voltar</button><button class="btn btn-primary" id="printBtn" disabled>Confirmar</button></div></div>
+    </div>
+  <div class="success" id="success"><div class="success-card"><div class="check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><div class="success-title">Pedido enviado com sucesso!</div></div></div>
+  <button id="adminDot">.</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = { apiKey:"AIzaSyDV9tPC5XNNmB_REgW1au2NtpP1ETtV1i0", authDomain:"paineldepedidos-8cfff.firebaseapp.com", projectId:"paineldepedidos-8cfff" };
+const appFB = initializeApp(firebaseConfig);
+const db = getFirestore(appFB);
+
+// GEO CONFIG
+const LOJA_LAT = -23.2782108;
+const LOJA_LNG = -46.736624;
+const RAIO_METROS = 150;
+const ADMIN_LAT = -23.3024802;
+const ADMIN_LNG = -46.7533604;
+const ADMIN_RAIO = 3000;
+const ADMIN_PASSWORD = 'pasterry2026';
+
+const CART_KEY = 'pasterry_cart_v1';
+const ORDER_SEQ_KEY = 'pasterry_order_seq_v1';
+const formatBRL = v => v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+
+let cart = []; try { cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch {}
+const cartEl = document.getElementById('cart');
+const subtotalEl = document.getElementById('subtotal');
+const totalEl = document.getElementById('total');
+const itemsCountEl = document.getElementById('itemsCount');
+const printBtn = document.getElementById('printBtn');
+const backBtn = document.getElementById('backBtn');
+const successEl = document.getElementById('success');
+const choiceError = document.getElementById('choiceError');
+const optionLabels = Array.from(document.querySelectorAll('.choice-option'));
+const customerNameInput = document.getElementById('customerName');
+const tableNumberInput = document.getElementById('tableNumber');
+
+// GEO FUNÇÕES
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+  const R = 6371e3;
+  const φ1 = lat1 * Math.PI/180;
+  const φ2 = lat2 * Math.PI/180;
+  const Δφ = (lat2-lat1) * Math.PI/180;
+  const Δλ = (lon2-lon1) * Math.PI/180;
+  const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+function liberarAcesso(isAdmin = false){
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('blocked').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'flex';
+  if(isAdmin) document.getElementById('adminBadge').style.display = 'block';
+  fbq('track', 'ViewContent', {content_name: 'Carrinho', content_category: 'Mesa'});
+}
+
+function bloquearAcesso(distancia = null){
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('blocked').style.display = 'flex';
+  document.getElementById('mainContent').style.display = 'none';
+  if(distancia) {
+    document.getElementById('distInfo').textContent = `Você está a ${Math.round(distancia)}m da loja`;
+  }
+}
+
+window.adminLogin = function(){
+  const senha = prompt('Digite a senha de administrador:');
+  if(senha === ADMIN_PASSWORD){
+    localStorage.setItem('pasterry_admin', 'true');
+    liberarAcesso(true);
+  } else if(senha!== null) {
+    alert('Senha incorreta');
+  }
+}
+
+window.checkLocation = function(){
+  if(localStorage.getItem('pasterry_admin') === 'true'){
+    liberarAcesso(true);
+    return;
+  }
+
+  document.getElementById('loading').style.display = 'flex';
+  document.getElementById('blocked').style.display = 'none';
+
+  if(!navigator.geolocation){
+    bloquearAcesso();
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const userLat = pos.coords.latitude;
+      const userLng = pos.coords.longitude;
+      const distLoja = calcularDistancia(userLat, userLng, LOJA_LAT, LOJA_LNG);
+      const distCasa = calcularDistancia(userLat, userLng, ADMIN_LAT, ADMIN_LNG);
+
+      if(distLoja <= RAIO_METROS){
+        liberarAcesso(false);
+      } else if(distCasa <= ADMIN_RAIO){
+        liberarAcesso(true);
+      } else {
+        bloquearAcesso(distLoja);
+      }
+    },
+    (err) => {
+      bloquearAcesso();
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+  );
+}
+
+// CARRINHO FUNÇÕES
+function getSelectedConsume(){ return document.querySelector('input[name="consume"]:checked')?.value || null; }
+function getCustomerData(){
+  return {
+    name: customerNameInput.value.trim(),
+    table: tableNumberInput.value.trim()
+  }
+}
+
+function validateForm(){
+  const val = getSelectedConsume();
+  const customer = getCustomerData();
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  customerNameInput.classList.remove('input-error');
+  tableNumberInput.classList.remove('input-error');
+  choiceError.style.display='none';
+  let isValid = true;
+  if(!customer.name) { customerNameInput.classList.add('input-error'); isValid = false; }
+  if(!customer.table) { tableNumberInput.classList.add('input-error'); isValid = false; }
+  if(!val) { choiceError.style.display='block'; isValid = false; }
+  printBtn.disabled =!(count>0 && isValid);
+  return isValid;
+}
+
+function updateChoiceUI(){ const val=getSelectedConsume(); optionLabels.forEach(l=>l.classList.toggle('selected', l.dataset.value===val)); validateForm(); }
+document.addEventListener('change', e=>{ if(e.target.name==='consume') updateChoiceUI(); });
+optionLabels.forEach(l=>l.onclick=()=>{ l.querySelector('input').checked=true; updateChoiceUI(); });
+customerNameInput.addEventListener('input', validateForm);
+tableNumberInput.addEventListener('input', validateForm);
+
+const UPSELL = [
+  {id:'u_sukita',title:'Sukita 350ml',price:6,img:'img/sukita-laranja-lata-350.png'},
+  {id:'u_pepsi',title:'Pepsi 350ml',price:6,img:'img/pepsi-lata-350.png'},
+  {id:'u_itubaina',title:'Itubaína 350ml',price:6,img:'img/itubaina-lata-350.png'},
+  {id:'u_coca',title:'Coca 350ml',price:6,img:'img/coca-lata-350.png'}
+];
+function save(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+function nextOrder(){ let s=parseInt(localStorage.getItem(ORDER_SEQ_KEY)||'0')||0; s++; localStorage.setItem(ORDER_SEQ_KEY,s); return '#'+String(s).padStart(4,'0'); }
+
+function trackAddToCart(){
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const ids = cart.map(i=>i.id);
+  fbq('track', 'AddToCart', { value: total, currency: 'BRL', content_ids: ids, content_type: 'product' });
+}
+
+function renderCart(){ cartEl.innerHTML=''; cart.forEach((it,i)=>{ const d=document.createElement('div'); d.className='cart-item'; d.innerHTML=`<img src="${it.img||'img/caipira2.png'}"><div class="meta"><div class="name">${it.title}</div><div class="qty">Qtd: ${it.qty}</div></div><div style="text-align:right"><div style="font-weight:800;color:var(--accent)">${formatBRL(it.price*it.qty)}</div><div style="margin-top:6px;display:flex;gap:6px"><button>-</button><button>+</button><button>×</button></div></div>`; const [b1,b2,b3]=d.querySelectorAll('button'); b1.onclick=()=>{it.qty=Math.max(1,it.qty-1);save();renderCart(); trackAddToCart()}; b2.onclick=()=>{it.qty++;save();renderCart(); trackAddToCart()}; b3.onclick=()=>{cart.splice(i,1);save();renderCart()}; cartEl.appendChild(d); }); const tot=cart.reduce((s,i)=>s+i.price*i.qty,0); subtotalEl.textContent=formatBRL(tot); totalEl.textContent=formatBRL(tot); itemsCountEl.textContent=cart.reduce((s,i)=>s+i.qty,0)+' itens'; validateForm(); }
+function renderUpsell(){ const g=document.getElementById('upsellGrid'); g.innerHTML=''; UPSELL.forEach(d=>{ const c=document.createElement('div'); c.className='upsell-card'; c.innerHTML=`<img src="${d.img}"><div class="upsell-title">${d.title}</div><div class="upsell-price">${formatBRL(d.price)}</div><button class="upsell-add">Adicionar</button>`; c.querySelector('button').onclick=()=>{ const ex=cart.find(x=>x.id===d.id); if(ex)ex.qty++; else cart.push({...d,qty:1}); save(); renderCart(); trackAddToCart(); }; g.appendChild(c); }); }
+
+async function enviarParaPainel(orderNo, items, total, consume, customer){
+  await addDoc(collection(db, 'pedidos'), {
+    numero: orderNo,
+    origem: 'totem',
+    status: 'novo',
+    criadoEm: serverTimestamp(),
+    total: total,
+    subtotal: total,
+    pagamento: 'Totem',
+    cliente: { nome: customer.name, mesa: customer.table },
+    itens: items.map(i => ({
+      nome: i.title,
+      title: i.title,
+      qty: i.qty,
+      qtd: i.qty,
+      price: i.price,
+      preco: i.price
+    })),
+    fulfillment: consume === 'viagem'? 'viagem' : 'local',
+    observacoes: consume === 'viagem'? 'PARA VIAGEM' : 'COMER NO LOCAL'
+  });
+}
+
+printBtn.onclick = async ()=>{
+  if(!validateForm()) return;
+  if(cart.length===0) return alert('Carrinho vazio');
+  const consume = getSelectedConsume();
+  const customer = getCustomerData();
+  printBtn.disabled=true;
+  const orderNo = nextOrder();
+  const items = cart.map(i=>({...i}));
+  const total = items.reduce((s,i)=>s+i.price*i.qty,0);
+  
+  fbq('track', 'InitiateCheckout', { value: total, currency: 'BRL', num_items: cart.reduce((s,i)=>s+i.qty,0), content_ids: items.map(i=>i.id) });
+  
+  try{ 
+    if(window.api?.invoke) {
+      await window.api.invoke('print-receipt',{
+        orderNo,
+        items,
+        total,
+        via: 'CLIENTE',
+        tipo: 'totem',
+        consume: consume,
+        customer: customer
+      });
+    } 
+  }catch(e){ console.log('Erro impressão:', e); }
+  
+  await enviarParaPainel(orderNo, items, total, consume, customer);
+  
+  fbq('track', 'Purchase', { value: total, currency: 'BRL', content_ids: items.map(i=>i.id), content_type: 'product' });
+  gtag('event', 'conversion', { 'send_to': 'AW-SEU_ID/CONVERSION_LABEL', 'value': total, 'currency': 'BRL', 'transaction_id': orderNo });
+  
+  cart=[]; save(); renderCart();
+  successEl.style.display='flex';
+  setTimeout(()=>location.href='index.html',2000);
+};
+
+backBtn.onclick=()=>location.href='index.html';
+document.getElementById('adminDot').onclick=()=>{ const u=prompt('Usuário:'); const p=prompt('Senha:'); if(u==='jeferson'&&p==='blue1990') location.href='relatorio.html'; };
+
+renderUpsell(); renderCart(); checkLocation();
+</script>
+</body>
+</html>
